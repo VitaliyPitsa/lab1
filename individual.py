@@ -1,6 +1,7 @@
-#!#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import sys
+import datetime
 
 if __name__ == '__main__':
     trains = []
@@ -11,7 +12,8 @@ if __name__ == '__main__':
         elif command == 'add':
             punkt_nazn = input("Пункт назначения ")
             nomer = input("Номер поезда? ")
-            time = input("время отправления? ")
+            time_str = input("время отправления? (hh/mm)\n ")
+            time = datetime.datetime.strptime(time_str, '%H/%M').time()
             train = {
                 'punkt_nazn': punkt_nazn,
                 'nomer': nomer,
@@ -25,11 +27,11 @@ if __name__ == '__main__':
                 '-' * 4,
                 '-' * 30,
                 '-' * 20,
-                '-' * 8
+                '-' * 20
             )
             print(line)
             print(
-                '| {:^4} | {:^30} | {:^20} | {:^8} |'.format(
+                '| {:^4} | {:^30} | {:^20} | {:^20} |'.format(
                     "No",
                     "Пункт назначиния",
                     "Номер поезда",
@@ -37,14 +39,15 @@ if __name__ == '__main__':
                 )
             )
             print(line)
-            # Вывести данные о всех сотрудниках.
             for idx, train in enumerate(trains, 1):
+                time = train.get('time', '')
                 print(
-                    '| {:>4} | {:<30} | {:<20} | {:>8} |'.format(
+                    '| {:>4} | {:<30} | {:<20} | {}{} |'.format(
                         idx,
                         train.get('punkt_nazn', ''),
                         train.get('nomer', ''),
-                        train.get('time', 0)
+                        time,
+                        ' ' * 5
                     )
                 )
             print(line)
@@ -65,8 +68,8 @@ if __name__ == '__main__':
         elif command == 'help':
             # Вывести справку о работе с программой.
             print("Список команд:\n")
-            print("add - добавить работника;")
-            print("list - вывести список работников;")
+            print("add - добавить поезд;")
+            print("list - вывести список поездов;")
             print("select найти информацию о поезде по номеру")
             print("help - отобразить справку;")
             print("exit - завершить работу с программой.")
